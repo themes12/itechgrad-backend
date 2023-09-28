@@ -1,9 +1,16 @@
 var express = require("express");
 var router = express.Router();
+const degreeJson = require("../utils/degree.json");
+const Course = require("../models/Course");
 
 /* GET home page. */
-router.get("/", function (req, res, next) {
-    res.json({ message: "Express ready!" });
+router.get("/courses/:degree", async function (req, res, next) {
+  const degree = degreeJson[req.params.degree];
+  if (!degree) {
+    return res.sendStatus(404);
+  }
+  const courses = await Course.find({ degree: degree, is_show: true }).exec();
+  return res.json({ courses: courses });
 });
 
 module.exports = router;
