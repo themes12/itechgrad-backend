@@ -1,0 +1,14 @@
+"test": "jest --watchAll --verbose"
+
+{
+    "typeAcquisition": {
+        "include": [
+            "jest"
+        ]
+    }
+}
+
+degree.json{
+    "master-degree": "ms",
+    "phd": "phd"
+}
