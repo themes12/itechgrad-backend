@@ -36,6 +36,43 @@ router.post(
   }
 );
 
+router.get(
+  "/course/:course_id",
+  [checkCourseId],
+  async function (req, res, next) {
+    const course_id = req.course_id;
+    try {
+      const course = await Course.findOne({ _id: course_id });
+      return res.json({ course: course });
+    } catch (error) {
+      return res.sendStatus(500);
+    }
+  }
+);
+
+router.post(
+  "/course/:degree/:course_id",
+  [checkCourseId, checkDegree],
+  async function (req, res, next) {
+    const course_id = req.course_id;
+    const degree = req.degree;
+    try {
+      await Course.updateOne(
+        {
+          _id: course_id,
+        },
+        {
+          ...req.body,
+          degree: degree,
+        }
+      );
+      return res.json({ success: true });
+    } catch (error) {
+      return res.sendStatus(500);
+    }
+  }
+);
+
 router.delete(
   "/course/:course_id",
   [checkCourseId],
@@ -57,19 +94,28 @@ router.get("/setting/academic-year", async function (req, res, next) {
   return res.json({ academic_year });
 });
 
-// router.post(
-//   "/setting/acdemic-year",
-//   async function (req, res, next) {
-//     const { semester, year } = req.body;
-// 	if(semester) {
-// 		try {
-// 			await Setting.updateOne({ _id: course_id }, { is_show: is_show });
-// 			return res.json({ success: true });
-// 		} catch (error) {
-// 		return res.sendStatus(500);
-// 		}
-// 	}
-//   }
-// );
+router.put("/course/:degree", [checkDegree], async function (req, res, next) {
+  const degree = req.degree;
+  try {
+    await Course.create({
+      ...req.body,
+      degree: degree,
+    });
+    return res.json({ success: true });
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+});
+
+router.post("/setting/acdemic-year", async function (req, res, next) {
+  console.log(req.body);
+  try {
+    await Setting.updateOne({ _id: "academic-year" }, { ...req.body });
+    return res.json({ success: true });
+  } catch (error) {
+    return res.sendStatus(500);
+  }
+});
 
 module.exports = router;
