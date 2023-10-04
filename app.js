@@ -14,7 +14,9 @@ mongoose
   .then(() => console.log("connect to mongodb successfully"))
   .catch((error) => console.log(error));
 
-var indexRouter = require("./routes/index");
+var courseRouter = require("./routes/course");
+var settingRouter = require("./routes/setting");
+var programRouter = require("./routes/program");
 
 var app = express();
 
@@ -25,6 +27,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
+app.use("/course", courseRouter);
+app.use("/setting", settingRouter);
+app.use("/program", programRouter);
 
 module.exports = app;
