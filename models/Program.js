@@ -21,12 +21,17 @@ const mongoose = require("mongoose");
 //     name_th: String,
 // });
 
-const ProgramSchema = new mongoose.Schema({
+const ProgramSchema = new mongoose.Schema(
+  {
     _id: { type: mongoose.Types.ObjectId, auto: true },
     degree: String,
     type: [{ type: mongoose.Types.ObjectId, ref: "Plan" }],
     name_en: String,
     name_th: String,
-});
+  },
+  {
+    versionKey: false,
+  }
+);
 
 module.exports = mongoose.model("Program", ProgramSchema);

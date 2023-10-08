@@ -6,13 +6,13 @@ var logger = require("morgan");
 var cors = require("cors");
 
 const mongoose = require("mongoose");
-
+mongoose.set("debug", true);
 mongoose.Promise = global.Promise;
 
 mongoose
-    .connect(process.env.MONGODB_URI)
-    .then(() => console.log("connect to mongodb successfully"))
-    .catch((error) => console.log(error));
+  .connect(process.env.MONGODB_URI)
+  .then(() => console.log("connect to mongodb successfully"))
+  .catch((error) => console.log(error));
 
 var courseRouter = require("./routes/course");
 var settingRouter = require("./routes/setting");
